@@ -1,0 +1,33 @@
+Authentication with JSON Web Token
+-It is used to verify identity of the user, ensuring they are wh they claim to be. 
+-It is achieved through credentials like username and password.
+
+JWT has three parts:
+1. Header: It illustrates what kind of token we are dealing with.
+2. Payload: This is where user data is stored. Also store info of the token like when it was created and when it will 
+    expire.
+3. Signature: It is a safety measure which have encoded header, encoded payload and a secret key then running them to 
+    verify the token.
+
+JWT work flow:
+=> Login : User logs in with the credentials and if it is correct then server generates a token and passed to user back.
+=> Store and Send: Browser stores the token ( usually in local storage ) and send back with every request for protected 
+    resources along the header.
+=> Verify and allow: Server gets the request with the token. Server verifies the JWT Signature and provide the resource 
+    to the browser.
+
+Steps:
+1. Browser to Server: Post (/login) with username and password.
+2. Server to Browser: Server generates JWT with secret and return it to the browser.
+3. Browser to Server: Send JWT in Authorization header to get some resource.
+4. Server to Browser : Server verifies the JWT with some algorithm and provide the resource once verified.
+
+Authorization
+- It defines what actions user can perform or what resource user can access once they are authenticated.
+
+Types of authorization:
+1. RBAC ( Role Based Access Control)
+2. Middleware: use middleware functions to check user's permission.
+3. Access Token: Issue access token with user permissions encoded and verify these token in the server side.
+
+

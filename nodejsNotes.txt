@@ -1,0 +1,330 @@
+### Basics:
+
+1. **What is Node.js?**
+   
+   Node.js is a runtime environment built on Chrome's V8 JavaScript engine that allows developers to run JavaScript 
+   on the server-side.
+
+2. **How does Node.js work?**
+   
+   Node.js is event-driven and non-blocking. It uses an event loop to manage asynchronous operations, making it efficient
+   for handling multiple operations concurrently.
+
+3. **What is the difference between Node.js and traditional web servers?**
+   
+   Traditional web servers handle each incoming request with a new thread, while Node.js handles all concurrent requests 
+   with a single thread using non-blocking I/O operations.
+
+4. **Explain the concept of event-driven programming in Node.js.**
+   
+   In event-driven programming, the flow of the program is determined by events such as user actions, sensor outputs, 
+   or messages from other programs.
+
+### Core Concepts:
+
+5. **What are the key features of Node.js?**
+   
+   - Asynchronous and Event-Driven
+   - Single-threaded
+   - Highly Scalable
+   - Fast Execution (Powered by V8 Engine)
+   - No Buffering
+
+6. **What is an event loop in Node.js? How does it work?**
+   
+   The event loop is a mechanism that allows Node.js to perform non-blocking I/O operations. It continuously cycles 
+   through multiple phases, checking for any I/O operations, timers, or other callbacks to execute.
+
+7. **Explain the concept of non-blocking I/O.**
+   
+   Non-blocking I/O allows other operations to continue while reading or writing to files or networks, ensuring that 
+   operations do not block the execution of the script.
+
+8. **What is the purpose of the `package.json` file?**
+   
+   The `package.json` file holds metadata regarding the project and dependencies. It is essential for defining scripts, 
+   dependencies, versioning, and other project configurations.
+
+9. **How can you handle asynchronous operations in Node.js?**
+   
+   - Callbacks
+   - Promises
+   - Async/Await
+
+### Modules and Packages:
+
+10. **What is the difference between global and local packages in Node.js?**
+    
+    - **Global Packages**: Installed globally and can be used from any location. Installed using `npm install -g`.
+    - **Local Packages**: Installed in the node_modules directory of the current project. Installed using `npm install`.
+
+11. **How do you create a module in Node.js?**
+    
+    Define your module in a file and export the necessary functions or variables using `module.exports` or `exports`.
+
+    ```javascript
+    // myModule.js
+    function greet(name) {
+      return `Hello, ${name}`;
+    }
+    
+    module.exports = greet;
+    ```
+
+12. **What is NPM, and what role does it play in Node.js development?**
+    
+    NPM (Node Package Manager) is a package manager for Node.js, allowing developers to install, share, and manage 
+    dependencies in their projects.
+
+13. **Explain how to use and create custom middleware in Express.js.**
+    
+    Middleware functions are functions that have access to the request object, response object, and the next middleware 
+    function. To create custom middleware:
+
+    ```javascript
+    const express = require('express');
+    const app = express();
+
+    const myMiddleware = (req, res, next) => {
+      console.log('Middleware executed');
+      next();
+    };
+
+    app.use(myMiddleware);
+    ```
+
+### Data Handling:
+
+14. **How can you read and write files in Node.js?**
+    
+    Using the `fs` module:
+
+    ```javascript
+    const fs = require('fs');
+
+    // Reading a file
+    fs.readFile('example.txt', 'utf8', (err, data) => {
+      if (err) throw err;
+      console.log(data);
+    });
+
+    // Writing to a file
+    fs.writeFile('example.txt', 'Hello, World!', (err) => {
+      if (err) throw err;
+      console.log('File written successfully');
+    });
+    ```
+
+15. **Explain how streams work in Node.js.**
+    
+    Streams are instances of EventEmitter. They allow for handling reading or writing of data piece by piece:
+
+    - **Readable Streams**: e.g., `fs.createReadStream()`
+    - **Writable Streams**: e.g., `fs.createWriteStream()`
+    - **Duplex Streams**: e.g., TCP sockets
+    - **Transform Streams**: e.g., zlib streams for compression
+
+16. **How do you handle exceptions in Node.js?**
+    
+    Use try-catch blocks for synchronous code and promise catch methods or await try-catch for asynchronous code. 
+    Also, handle uncaught exceptions:
+
+    ```javascript
+    process.on('uncaughtException', (err) => {
+      console.error('Uncaught Exception:', err);
+    });
+    ```
+
+### Advanced Topics:
+
+17. **Explain clustering in Node.js.**
+    
+    Clustering enables the creation of child processes that share the same server port. This allows for better 
+    utilization of multi-core systems:
+
+    ```javascript
+    const cluster = require('cluster');
+    const http = require('http');
+    const numCPUs = require('os').cpus().length;
+
+    if (cluster.isMaster) {
+      console.log(`Master ${process.pid} is running`);
+
+      for (let i = 0; i < numCPUs; i++) {
+        cluster.fork();
+      }
+
+      cluster.on('exit', (worker, code, signal) => {
+        console.log(`Worker ${worker.process.pid} died`);
+      });
+    } else {
+      http.createServer((req, res) => {
+        res.writeHead(200);
+        res.end('Hello World\n');
+      }).listen(8000);
+    }
+    ```
+
+18. **What is the purpose of `process.nextTick()`?**
+    
+    It schedules a callback to be invoked in the next iteration of the event loop, before any I/O operations.
+
+19. **What are worker threads in Node.js?**
+    
+    Worker threads allow running JavaScript in parallel on multiple threads, encouraging multitasking within the 
+    same script. 
+
+    ```javascript
+    const { Worker } = require('worker_threads');
+
+    const worker = new Worker('worker_script.js');
+    
+    worker.on('message', (message) => {
+      console.log(`Received from worker: ${message}`);
+    });
+
+    worker.postMessage('Hello, worker');
+    ```
+
+20. **How do you manage memory leaks in a Node.js application?**
+    
+    Use tools like Node.js's built-in Inspector, heap dumps, and garbage collection analysis to find and fix memory leaks. 
+
+### Security:
+
+21. **What is CORS, and how do you handle it in Node.js?**
+    
+    CORS (Cross-Origin Resource Sharing) is a security feature that allows or restricts resources on a web page to be 
+    requested from another domain. Use the `cors` middleware in Express:
+
+    ```javascript
+    const cors = require('cors');
+    app.use(cors());
+    ```
+
+22. **Explain some best practices for securing a Node.js application.**
+    
+    - Use HTTPS
+    - Validate user inputs
+    - Use environment variables for sensitive information
+    - Limit request payload size
+    - Regularly update dependencies
+    - Implement proper error handling
+
+23. **How do you handle authentication and authorization in a Node.js application?**
+    
+    Use libraries like `passport` for authentication and implement role-based access controls for authorization. 
+    For example:
+
+    ```javascript
+    const passport = require('passport');
+    const LocalStrategy = require('passport-local').Strategy;
+    
+    passport.use(new LocalStrategy(
+      (username, password, done) => {
+        // Authenticate user
+      }
+    ));
+    ```
+
+### Performance:
+
+24. **How would you optimize a Node.js application for performance?**
+    
+    - Use Asynchronous Functions
+    - Implement Clustering
+    - Optimize Loop Operations
+    - Use Streams for Large Data
+    - Monitor Performance (e.g., using New Relic)
+
+25. **What is the `child_process` module, and how is it used?**
+    
+    The `child_process` module allows you to run scripts or commands in a separate process:
+
+    ```javascript
+    const { exec } = require('child_process');
+
+    exec('ls -la', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+      console.error(`stderr: ${stderr}`);
+    });
+    ```
+
+### Practical:
+
+26. **Can you write an example of a simple HTTP server using Node.js?**
+    
+    ```javascript
+    const http = require('http');
+
+    const server = http.createServer((req, res) => {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/plain');
+      res.end('Hello, World!\n');
+    });
+
+    server.listen(3000, '127.0.0.1', () => {
+      console.log('Server running at http://127.0.0.1:3000/');
+    });
+    ```
+
+27. **How would you connect a Node.js application to a database (e.g., MongoDB, MySQL)?**
+    
+    Example with MongoDB using Mongoose:
+
+    ```javascript
+    const mongoose = require('mongoose');
+
+    mongoose.connect('mongodb://localhost/mydatabase', { useNewUrlParser: true, useUnifiedTopology: true });
+
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function() {
+      console.log('Connected to MongoDB');
+    });
+    ```
+
+28. **Describe a scenario where you would use an event emitter in Node.js.**
+    
+    Use event emitters for handling tasks like logging, handling custom events, or inter-component communication 
+    within applications.
+
+    ```javascript
+    const EventEmitter = require('events');
+    class MyEmitter extends EventEmitter {}
+    
+    const myEmitter = new MyEmitter();
+    
+    myEmitter.on('event', () => {
+      console.log('an event occurred!');
+    });
+    
+    myEmitter.emit('event');
+    ```
+
+These answers provide a strong foundation for understanding key concepts in Node.js and are suitable for 
+preparing for an interview.
+
+Node js is a javascript runtime environment which follows non-blocking event driven architecture. 
+It has single thread for all the requests.
+Event Loops help node to manage asynchronous operation efficiently. 
+Basically it stores all the response in the event queue and monitor these queues for the responses and in the mean 
+time access another requests.
+
+Traditional web servers create single thread for each requests which makes it non-efficient
+
+Event driven programming : follows of program is determined using events
+
+Node js
+- Single threaded
+- asynchronous non-blocking architecture
+-highly scalable
+-fast execution using v8 engine
+
+
+Example of single thread
+-Most common example is the waiter in a restaurant.
