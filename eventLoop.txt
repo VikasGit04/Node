@@ -1,0 +1,25 @@
+Event Loop - It allows node js to perform i/o operations in a non-blocking manner, despite the fact that it has 
+single thread.
+
+It has 6 phases: Timers, pending callbacks, idle/prepare, poll, check, close callbacks
+1. timers: this phase executes callbacks scheduled by setTimeout() and setInterval().
+2. pending callbacks: executes i/o callbacks which was supposed to run in the next loop iteration.
+3. idle, prepare: used internally
+4. poll: retrieve new i/o events; executes i/o related callbacks;
+5. check: setImmediate() callbacks are involved here.
+6. close callbacks: some close callbacks like socket.on('close', ()=> {})
+
+Between each run of the event loop, nodeJs checks if it is waiting for any async i/o or timers and shuts down cleanly.
+
+
+Process.nextTick(()=> {
+    console.log('NextTick Queue')
+});
+
+Promise.resolve('Microtask queue').then((res)=> {
+    console.log(res);
+})
+
+Promise.reject('Microtask queue').catch((res)=> {
+    console.log(res);
+})
