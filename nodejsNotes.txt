@@ -306,9 +306,6 @@
     myEmitter.emit('event');
     ```
 
-These answers provide a strong foundation for understanding key concepts in Node.js and are suitable for 
-preparing for an interview.
-
 Node js is a javascript runtime environment which follows non-blocking event driven architecture. 
 It has single thread for all the requests.
 Event Loops help node to manage asynchronous operation efficiently. 

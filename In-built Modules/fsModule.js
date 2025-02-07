@@ -53,13 +53,21 @@ const utfEncoding = 'utf8';
 
 // myFunction();
 
-// fs.writeFile(filePath, '\nTesting of writing file.', { flag : 'a'}, err => {
-//     if (err) {
-//         console.log('Error:', err);
-//     } else {
-//         console.log('File is written successfully');
-//     } 
-// });
+fs.writeFile(filePath, '\nTesting of writing file.', { flag : 'a'}, err => {
+    if (err) {
+        console.log('Error:', err);
+    } else {
+        console.log('File is written successfully');
+    } 
+});
+
+fs.appendFile(filePath, 'Append Data', (err)=> {
+    if(err) {
+        console.log(err);
+    }
+
+    console.log('Append completed!');
+});
 
 fs.unlink('../Node/toDelete.txt', (err)=> {
     if ( err) {
@@ -67,4 +75,5 @@ fs.unlink('../Node/toDelete.txt', (err)=> {
     } else {
         console.log('File Deleted successfully');
     }
-})
+});
+
