@@ -7,7 +7,7 @@ const app = express();
 
 function logRequest(req,res,next) {
     console.log(`Method:${req.method}, URL: ${req.url}`);
-    next();
+    // res.send({message: 'Handled in middleware'});
 }
 
 app.use(bodyParser.json());

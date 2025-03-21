@@ -7,11 +7,11 @@ const events = require('events');
 
 const myEmitter = new events.EventEmitter();
 
-myEmitter.on('event', (args)=> {
+myEmitter.on('event', (id,name)=> {
     // const [ id, name ] = args;
     console.log('an event occurred!');
-    console.log('Arguments:', args);
-    // console.log(`Id: ${id} and Name: ${name}`);
+    // console.log('Arguments:', args);
+    console.log(`Id: ${id} and Name: ${name}`);
 });
 
 myEmitter.on('event', (...arg)=> {
@@ -22,7 +22,7 @@ myEmitter.on('error', (err)=> {
     console.log( err);
 })
 
-myEmitter.emit('event', 1,'test');
+myEmitter.emit('event', 1,'name');
 
 // myEmitter.emit('error', new Error('throw err'));
 

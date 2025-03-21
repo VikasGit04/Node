@@ -309,7 +309,7 @@
 Node js is a javascript runtime environment which follows non-blocking event driven architecture. 
 It has single thread for all the requests.
 Event Loops help node to manage asynchronous operation efficiently. 
-Basically it stores all the response in the event queue and monitor these queues for the responses and in the mean 
+Basically it stores all the requests in the event queue and monitor these queues for the responses and in the mean 
 time access another requests.
 
 Traditional web servers create single thread for each requests which makes it non-efficient
